@@ -1,0 +1,5 @@
+packages:
+  - 'application'
+  - 'docs'
+  - 'shared/*'
+  - 'config/*'

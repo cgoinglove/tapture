@@ -1,0 +1,1 @@
+type PingEvent = AppEventMap<'ping'>

@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .light {
+    --background: #f6f6f6;
+    --softbackground: white;
+    --foreground: rgb(23, 23, 23);
+    --hoverColor: hsla(0, 0%, 0%, 0.08);
+    --ringColor: hsla(0, 0%, 0%, 0.08);
+    --subText: hsla(0, 0%, 40%, 1);
+  }
+  .dark {
+    --background: black;
+    --softbackground: rgb(27, 27, 27);
+    --foreground: white;
+    --hoverColor: hsla(0, 0%, 100%, 0.09);
+    --ringColor: hsla(0, 0%, 100%, 0.14);
+    --subText: hsla(0, 0%, 63%, 1);
+  }
+
+  #tapture-root {
+    font-family: 'Roboto', sans-serif;
+  }
+}

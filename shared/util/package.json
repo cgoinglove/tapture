@@ -1,0 +1,26 @@
+{
+  "name": "@shared/util",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0"
+  },
+  "exports": {
+    ".": "./src/base/index.ts",
+    "./const": "./src/const/index.ts"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:^",
+    "@config/typescript": "workspace:*",
+    "typescript": "^5.3.3",
+    "vitest": "^2.1.1",
+    "eslint": "^9.19.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
