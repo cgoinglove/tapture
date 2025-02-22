@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "name": "tapture",
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "description": "웹페이지 번역 도우미 tapture. 사용자가 외국어 웹페이지를 쉽게 번역하고 읽을 수 있도록 돕습니다.",
+  "permissions": ["activeTab", "scripting", "contextMenus", "storage", "commands"],
+  "host_permissions": ["<all_urls>"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "background": {
+    "service_worker": "src/extension/background/worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/extension/content-script/index.ts"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "icon/16.png",
+      "48": "icon/48.png",
+      "128": "icon/128.png"
+    }
+  },
+  "commands": {
+    "toggle_side_panel": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E"
+      },
+      "description": "Open Translator"
+    }
+  },
+
+  "icons": {
+    "16": "icon/16.png",
+    "48": "icon/48.png",
+    "128": "icon/128.png"
+  }
+}
