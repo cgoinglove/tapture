@@ -20,5 +20,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "vite.extension.cofnig.ts", "__test__", "types"]
+  "include": ["vite.docs.config.ts", "vite.cofnig.ts", "__test__", "types"]
 }
