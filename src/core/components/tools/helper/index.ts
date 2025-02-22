@@ -49,7 +49,9 @@ const streamTranslateElement = async (el: HTMLElement) => {
       switch (event.data.status) {
         case 'end': {
           translator.unsubscribe('translate', handler)
-          return resolve(event.data.message ?? originText)
+          const result = event.data.message ?? originText
+          el.textContent = result
+          return resolve(result)
         }
         case 'update': {
           el.textContent = event.data.message.padEnd(originText.length, ' ')

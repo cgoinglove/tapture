@@ -1,26 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import browserExtension from 'vite-plugin-web-extension'
+import { fileURLToPath } from 'url'
 import tsPaths from 'vite-tsconfig-paths'
-import { resolve } from 'node:path'
+import { dirname } from 'path'
 
-// https://vite.dev/config/
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 export default defineConfig({
-  build: {
-    outDir: resolve(__dirname, 'dist'),
-    emptyOutDir: true,
-  },
-
-  plugins: [
-    react(),
-    tsPaths(),
-    browserExtension({
-      manifest: './extension/manifest.json',
-      browser: 'chrome',
-      webExtConfig: {
-        startUrl: 'https://vercel.com/home',
-        target: 'chromium',
-      },
-    }),
-  ],
+  root: __dirname,
+  plugins: [react(), tsPaths()],
 })

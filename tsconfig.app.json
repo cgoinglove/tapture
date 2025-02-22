@@ -31,5 +31,5 @@
       "@lib/*": ["src/lib/*"]
     }
   },
-  "include": ["src", "vite.docs.cofnig.ts"]
+  "include": ["src", "types"]
 }

@@ -20,7 +20,7 @@
     --subText: hsla(0, 0%, 63%, 1);
   }
 
-  #tapture-root {
+  body {
     font-family: 'Roboto', sans-serif;
   }
 }
