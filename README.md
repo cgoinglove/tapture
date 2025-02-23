@@ -1,9 +1,8 @@
 # Tapture
 
-#### **[DEMO SITE](https://tapture.vercel.app/)**
-
-![config](./public/config.gif)
 ![translation](./public/translation.gif)
+
+#### **[DEMO SITE](https://tapture.vercel.app/)**
 
 ## 개요
 
