@@ -1,4 +1,4 @@
-import { APP_NAME, IS_DEV } from '@lib/const'
+import { APP_NAME } from '@lib/const'
 import { PromiseQueue } from '@lib/promise-queue'
 import { BackgroundEventProvider } from '@lib/event-provider/bacground-event-provider'
 import { Translator } from '@core/translator'
@@ -7,15 +7,6 @@ type PublishEventMap = TranslateResponseEvent | TranslateProgressEvent | PingEve
 type SubscribeEventMap = TranslateRequestEvent | PingEvent
 
 const provider = new BackgroundEventProvider<PublishEventMap, SubscribeEventMap>()
-
-if (IS_DEV) {
-  chrome.tabs.query({}, function (tabs) {
-    const extensionsTab = tabs.find(tab => !tab.url || tab.url.startsWith('chrome://extensions'))
-    if (!extensionsTab) {
-      chrome.tabs.create({ url: 'chrome://extensions' })
-    }
-  })
-}
 
 const translator = Translator({
   fake: false,

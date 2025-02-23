@@ -80,6 +80,7 @@ export default function DemoApp() {
         </div>
         <a
           href='#'
+          onClick={() => alert('🚧 Comming Soon 🚧')}
           className='inline-flex items-center justify-between px-4 py-4 text-4xl font-bold rounded-full bg-softBackground ring-1 ring-ringColor hover:bg-hoverColor'
         >
           <span className='ml-4 mr-24'>Start Extension</span>

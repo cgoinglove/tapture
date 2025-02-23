@@ -1,5 +1,10 @@
 # Tapture
 
+#### **[DEMO SITE](https://tapture.vercel.app/)**
+
+![config](./public/config.gif)
+![translation](./public/translation.gif)
+
 ## 개요
 
 Tapture는 마우스로 선택한 영역만 번역할 수 있는 Chrome 확장 프로그램입니다. 기존 번역기들은 전체 페이지 번역이나 새로운 탭이동, 번거로운 복사 & 붙여넣기 과정이 필요하지만, Tapture는 이런 불필요한 과정을 줄이고 원하는 부분만 즉시 번역하는 데 초점을 맞췄습니다.
