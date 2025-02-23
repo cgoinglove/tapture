@@ -13,6 +13,12 @@
     "service_worker": "src/extension/background/worker.ts",
     "type": "module"
   },
+  "web_accessible_resources": [
+    {
+      "resources": ["index.html", "assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -28,7 +34,7 @@
     }
   },
   "commands": {
-    "toggle_side_panel": {
+    "toggle_app": {
       "suggested_key": {
         "default": "Ctrl+Shift+E"
       },

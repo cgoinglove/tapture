@@ -88,6 +88,8 @@ chrome.action.onClicked.addListener(tab => {
   }
 })
 
-chrome.commands.onCommand.addListener(command => {
-  console.log({ command })
+chrome.commands.onCommand.addListener((command, tab) => {
+  if (command == 'toggle_app' && tab?.id) {
+    chrome.tabs.sendMessage(tab.id, { action: 'toogle' })
+  }
 })

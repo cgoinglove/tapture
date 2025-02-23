@@ -1,9 +1,8 @@
-import { Book, Code, Zap, Rocket, Users, LifeBuoy, Globe, ChevronRight } from 'lucide-react'
-
+import { ArrowRight, MousePointer2 } from 'lucide-react'
 import createTapture from '@core/index'
-
 import { WebWokerEventProvider } from '@lib/event-provider/web-woker-event-provider'
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { TIME } from '@lib/timestamp'
 
 const container = document.createElement('div')
 container.id = 'tapture-rootxasdasd'
@@ -15,134 +14,80 @@ const woker = new Worker(new URL('./web-worker.ts', import.meta.url), { type: 'm
 const { close, isOpen, open } = createTapture(container, new WebWokerEventProvider(woker))
 
 export default function DemoApp() {
+  const [shouldIntro, setShouldIntro] = useState(true)
+
+  const introRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key == 'Escape') {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'e') {
+        e.preventDefault()
+        e.stopPropagation()
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         isOpen() ? close() : open()
       }
     }
-    document.addEventListener('keydown', handler)
+
+    open()
+    document.addEventListener('keydown', handler, { capture: true })
+
+    setTimeout(() => {
+      if (introRef.current) {
+        introRef.current.style.width = '100%'
+        introRef.current.style.height = '100%'
+      }
+
+      setTimeout(() => {
+        setShouldIntro(false)
+      }, TIME.SECONDS(3))
+    }, TIME.SECONDS(0.1))
+
     return () => {
       document.removeEventListener('keydown', handler)
     }
   }, [])
 
   return (
-    <div className='min-h-screen text-gray-900 '>
-      {/* Header */}
-      <header className='sticky top-0 bg-white shadow-sm'>
-        <div className='px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8'>
-          <h1 className='text-3xl font-bold text-gray-900'>Product Documentation</h1>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className='px-4 py-6 mx-auto max-w-7xl sm:py-12 sm:px-6 lg:px-8'>
-        {/* Hero Section */}
-        <section className='mb-12 text-center'>
-          <h2 className='mb-4 text-4xl font-extrabold text-gray-900'>Welcome to Our Documentation</h2>
-          <p className='max-w-3xl mx-auto mb-8 text-xl text-gray-600'>
-            Here you'll find comprehensive guides and documentation to help you start working with our product as quickly as possible, as
-            well as support if you get stuck.
-          </p>
-          <a
-            href='#'
-            className='inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700'
-          >
-            Get started
-            <ChevronRight className='w-5 h-5 ml-2 -mr-1' aria-hidden='true' />
-          </a>
-        </section>
-
-        {/* Feature Cards */}
-        <section className='mb-12'>
-          <h3 className='mb-6 text-2xl font-semibold text-center'>Key Resources</h3>
-          <div className='grid gap-6 md:grid-co2 lg:grid-co3'>
-            <FeatureCard
-              icon={<Book className='w-8 h-8 text-blue-500' />}
-              title='Guides'
-              description='Step-by-step guides to get you up and running with our product.'
-            />
-            <FeatureCard
-              icon={<Code className='w-8 h-8 text-green-500' />}
-              title='API Reference'
-              description='Detailed API documentation with examples for each endpoint.'
-            />
-            <FeatureCard
-              icon={<Zap className='w-8 h-8 text-yellow-500' />}
-              title='Best Practices'
-              description='Learn the best ways to use our product for optimal performance.'
-            />
-          </div>
-        </section>
-
-        {/* Quick Links */}
-        <section className='mb-12'>
-          <h3 className='mb-6 text-2xl font-semibold text-center'>Quick Links</h3>
-          <div className='grid gap-4 md:grid-co2 lg:grid-co4'>
-            <QuickLinkCard icon={<Rocket className='w-6 h-6 text-purple-500' />} title='Quick Start' />
-            <QuickLinkCard icon={<Users className='w-6 h-6 text-indigo-500' />} title='Authentication' />
-            <QuickLinkCard icon={<Globe className='w-6 h-6 text-green-500' />} title='Deployment' />
-            <QuickLinkCard icon={<LifeBuoy className='w-6 h-6 text-red-500' />} title='Troubleshooting' />
-          </div>
-        </section>
-
-        {/* Latest Updates */}
-        <section className='mb-12'>
-          <h3 className='mb-6 text-2xl font-semibold text-center'>Latest Updates</h3>
-          <div className='overflow-hidden bg-white shadow sm:rounded-md'>
-            <ul className='divide-y divide-gray-200'>
-              {[
-                { title: 'New API endpoints added', date: '2023-07-15' },
-                { title: 'Performance improvements', date: '2023-07-10' },
-                { title: 'Bug fixes and stability enhancements', date: '2023-07-05' },
-                { title: 'Updated documentation for v2.0', date: '2023-07-01' },
-              ].map((item, index) => (
-                <li key={index}>
-                  <a href='#' className='block hover:bg-gray-50'>
-                    <div className='px-4 py-4 sm:px-6'>
-                      <div className='flex items-center justify-between'>
-                        <p className='text-sm font-medium text-indigo-600 truncate'>{item.title}</p>
-                        <div className='flex flex-shrink-0 ml-2'>
-                          <p className='inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full'>
-                            {item.date}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
+    <div className='relative flex items-center justify-center w-full min-h-screen text-foreground light bg-background'>
+      {shouldIntro && <div className='absolute inset-0 z-10 w-full h-full pointer-events-all bg-black/20' />}
+      <main className='text-center md:w-[750px] w-full mx-auto'>
+        <div className='flex justify-center mb-4 text-[4.5rem] font-extrabold'>
+          Translate To
+          <div className='relative ml-4 overflow-hidden text-center rounded-lg bg-hoverColor'>
+            <div className='absolute flex flex-col w-full animate-text-up'>
+              {['にほんご', '한국어', 'English', 'にほんご'].map((lang, i) => (
+                <span key={i}>{lang}</span>
               ))}
-            </ul>
+            </div>
+            <span className='px-4 opacity-0'>にほんご</span>
           </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className='mt-auto bg-white shadow-sm'>
-        <div className='px-4 py-4 mx-auto text-center text-gray-500 max-w-7xl sm:px-6 lg:px-8'>
-          <p>&copy; 2023 Your Company Name. All rights reserved.</p>
         </div>
-      </footer>
+        <div className='relative z-20 max-w-3xl py-4 mx-auto my-12 text-xl text-subText'>
+          Easily translate for the text you need. No need for full-page translations or copy-pasting. ust drag over any section to get
+          instant results!
+          {shouldIntro && (
+            <div
+              ref={introRef}
+              className='absolute top-0 left-0 w-0 h-0 transition-all ease-out border-indigo-300 rounded-sm duration-[2s] bg-white/80'
+            >
+              <div className='px-3 py-2 text-sm rounded bg-black text-white absolute bottom-[-54px] right-[-90px]'>
+                {' '}
+                Try This
+                <MousePointer2 className='absolute left-[-18px] top-[-18px] stroke-black fill-black' />
+              </div>
+            </div>
+          )}
+        </div>
+        <a
+          href='#'
+          className='inline-flex items-center justify-between px-4 py-4 text-4xl font-bold rounded-full bg-softBackground ring-1 ring-ringColor hover:bg-hoverColor'
+        >
+          <span className='ml-4 mr-24'>Start Extension</span>
+          <div className='p-2 rounded-full bg-foreground'>
+            <ArrowRight className='text-background' size={32} />
+          </div>
+        </a>
+      </main>
     </div>
-  )
-}
-
-function FeatureCard({ icon, title, description }) {
-  return (
-    <div className='p-6 transition duration-300 bg-white rounded-lg shadow-md hover:shadow-lg'>
-      {icon}
-      <h3 className='mt-4 mb-2 text-xl font-semibold'>{title}</h3>
-      <p className='text-gray-600'>{description}</p>
-    </div>
-  )
-}
-
-function QuickLinkCard({ icon, title }) {
-  return (
-    <a href='#' className='flex items-center p-4 space-x-4 transition duration-300 bg-white rounded-lg shadow-md hover:shadow-lg'>
-      {icon}
-      <h3 className='text-lg font-semibold'>{title}</h3>
-    </a>
   )
 }

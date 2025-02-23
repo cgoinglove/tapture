@@ -1,4 +1,4 @@
-import { isLanguageSupported, APP_NAME, IS_DEV } from '@lib/const'
+import { isLanguageSupported, APP_NAME, IS_DEV, IS_CHROME } from '@lib/const'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { createChromePersistStorage, sessionPersistStorage } from './persist-storage'
@@ -102,7 +102,7 @@ export const useAppStore = create(
     }),
     {
       name: APP_NAME,
-      storage: IS_DEV ? sessionPersistStorage : createChromePersistStorage(state => useAppStore.setState(state)),
+      storage: IS_CHROME ? createChromePersistStorage(state => useAppStore.setState(state)) : sessionPersistStorage,
       partialize(state) {
         return {
           tool: state.tool,
