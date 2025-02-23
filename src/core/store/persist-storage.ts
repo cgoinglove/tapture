@@ -1,5 +1,5 @@
 import { ChromeLocalStorage } from '@lib/chrome-storage'
-import { equla, isNotNull, randomId } from '@lib/shared'
+import { equla, isNull, randomId } from '@lib/shared'
 import { PersistStorage } from 'zustand/middleware'
 
 export const createChromePersistStorage = <S = any>(onChange?: (newState: Partial<S>) => void): PersistStorage<S> => {
@@ -21,11 +21,12 @@ export const createChromePersistStorage = <S = any>(onChange?: (newState: Partia
     async getItem(name) {
       if (storeName != name) storeName = name
       const state = await storage.get(name)
+      cache.set(name, state ?? {})
       return state ? { state } : null
     },
     setItem(name, { state }) {
       const prev = cache.get(name)
-      if (isNotNull(prev) && equla(prev, state)) return
+      if (isNull(prev) || equla(prev, state)) return
       cache.set(name, state)
       return storage.set(name, state)
     },
